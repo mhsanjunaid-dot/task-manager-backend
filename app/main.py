@@ -1,14 +1,10 @@
 from fastapi import FastAPI
-from . import models
-from .database import engine
-from .routers import tasks
 
-models.Base.metadata.create_all(bind=engine)
+from app.routes.auth_routes import router as auth_router
+from app.routes.tasks import router as tasks_router
 
 app = FastAPI()
 
-app.include_router(tasks.router)
 
-@app.get("/")
-def home():
-    return {"message": "Backend is running!"}
+app.include_router(auth_router)
+app.include_router(tasks_router)
